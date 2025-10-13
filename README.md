@@ -136,13 +136,13 @@ Cas d'erreur (si email ou message manquant) :
 🔧 Travail Pratique
 
 1. Route GET /about
-   javascript :
-   app.get('/about', (req, res) => {
-   res.send(`    <h1>À propos de notre API Blog</h1>
-    <p>Cette API permet de gérer les articles d'un blog</p>
-    <p>Version 1.0 - Développée avec Express.js</p>
- `);
-   });
+javascript :
+app.get('/about', (req, res) => {
+res.send(` <h1>À propos de notre API Blog</h1>
+   <p>Cette API permet de gérer les articles d'un blog</p>
+   <p>Version 1.0 - Développée avec Express.js</p>
+`);
+  });
 
 📡 Endpoints Disponibles
 | Méthode | Endpoint | Description |
@@ -195,5 +195,133 @@ npm run dev
 npm start
 
 📅 Date de réalisation : 29 septembre 2025
+
+🧠 MERN - Semaine 4 : Finalisation des Opérations CRUD
+🎯 Objectifs du TP
+Ce TP avait pour but de rendre notre API Node.js + Express + MongoDB (MERN) totalement fonctionnelle en complétant le cycle CRUD :
+• Lire un article spécifique (Read One)
+• Mettre à jour un article (Update)
+• Supprimer un article (Delete)
+• Tester toutes les routes avec Postman
+• Comprendre et gérer les paramètres de route (req.params.id)
+• Utiliser correctement les codes de statut HTTP (200, 404, 500, etc.)
+
+---
+
+⚙️ Partie 1 – Concepts Techniques
+🔹 Les Paramètres de Route
+• Permettent de cibler une ressource spécifique via une URL comme /api/articles/:id
+• Accessible dans le contrôleur avec req.params.id
+Exemple :
+router.get('/:id', getArticleById)
+🔹 Méthodes HTTP et Status Codes
+Méthode Usage Statut
+GET Lire une ressource 200 OK
+PUT Mettre à jour (remplacer) une ressource 200 OK
+DELETE Supprimer une ressource 200 OK ou 204 No Content
+404 Ressource non trouvée —
+🔹 Méthodes Mongoose utilisées
+• findById(id) → Lire un seul document
+• findByIdAndUpdate(id, data, options) → Modifier un document
+• findByIdAndDelete(id) → Supprimer un document
+Options importantes :
+{ new: true, runValidators: true }
+• new: true → retourne le document après la mise à jour
+• runValidators: true → applique les règles de validation du schéma
+
+---
+
+🧩 Partie 2 – Atelier Pratique : Implémentation du CRUD
+Étape 1 – Lire un article spécifique (Read One)
+Fichier : controllers/articleController.js
+const getArticleById = async (req, res) => {
+try {
+const article = await Article.findById(req.params.id)
+if (!article)
+return res.status(404).json({ message: "Article non trouvé." })
+res.status(200).json(article)
+} catch (err) {
+res.status(500).json({ message: "Erreur serveur.", error: err.message })
+}
+}
+Étape 2 – Mettre à jour un article (Update)
+Fichier : controllers/articleController.js
+const updateArticle = async (req, res) => {
+try {
+const updated = await Article.findByIdAndUpdate(
+req.params.id,
+req.body,
+{ new: true, runValidators: true }
+)
+if (!updated)
+return res.status(404).json({ message: "Article non trouvé." })
+res.status(200).json(updated)
+} catch (err) {
+res.status(400).json({ message: "Erreur lors de la mise à jour.", error: err.message })
+}
+}
+Étape 3 – Supprimer un article (Delete)
+const deleteArticle = async (req, res) => {
+try {
+const deleted = await Article.findByIdAndDelete(req.params.id)
+if (!deleted)
+return res.status(404).json({ message: "Article non trouvé." })
+res.status(200).json({ message: "Article supprimé avec succès.", id: req.params.id })
+} catch (err) {
+res.status(500).json({ message: "Erreur serveur.", error: err.message })
+}
+}
+Étape 4 – Cycle de Test avec Postman
+
+1. POST /api/articles → Créer un article et copier son \_id
+2. GET /api/articles → Lire tous les articles
+3. GET /api/articles/:id → Lire un article spécifique
+4. GET /api/articles/fake_id → Tester le 404
+5. PUT /api/articles/:id → Modifier l’article (titre, contenu, etc.)
+6. DELETE /api/articles/:id → Supprimer l’article
+7. GET /api/articles/:id → Vérifier que le 404 s’affiche après suppression
+
+---
+
+📸 Travail Pratique Complémentaire
+Implémenter le même CRUD pour la ressource Users :
+• GET /api/users/:id
+• PUT /api/users/:id
+• DELETE /api/users/:id
+➡️ Utiliser :
+User.findById()
+User.findByIdAndUpdate()
+User.findByIdAndDelete()
+➡️ Gérer les erreurs 404 et tester avec Postman.
+➡️ Inclure dans le rapport : captures d’écran des requêtes réussies + erreurs (404).
+
+---
+
+📚 Points à retenir
+• req.params.id sert à récupérer un ID dans l’URL
+• findById retourne null si l’élément n’existe pas
+• new: true permet d’avoir le document mis à jour dans la réponse
+• runValidators: true applique les contraintes du modèle Mongoose
+• Toujours gérer les erreurs avec un message clair + bon code HTTP
+• Tester chaque route CRUD avec Postman avant de passer à la suite
+
+---
+
+🧾 Structure finale du projet
+project/
+│
+├── controllers/
+│ └── articleController.js
+│
+├── models/
+│ └── Article.js
+│
+├── routes/
+│ └── articleRoutes.js
+│
+├── server.js
+└── README.md
+📅 Date de réalisation : 13 oct 2025
+
 👨‍💻 Développeur : Hedyene Mili
 🏫 École Polytechnique de Sousse
