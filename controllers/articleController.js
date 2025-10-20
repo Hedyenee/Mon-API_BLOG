@@ -1,53 +1,65 @@
-// --- Import du modèle ---
-const Article = require("../models/Article"); // ✅ Vérifie bien le chemin vers ton modèle
+// controllers/articleController.js
 
-// --- FONCTION DE TEST ---
+// Import du modèle Article
+const Article = require("../models/Article");
+
+// --- TEST DE L'API ---
 const testApi = (req, res) => {
-  res
-    .status(200)
-    .json({
-      message: "Le test depuis le contrôleur a fonctionné !",
-      success: true,
-    });
-};
-
-// --- CRÉATION D’ARTICLE ---
-const createArticle = (req, res) => {
-  const articleData = req.body;
-  console.log("Données reçues :", articleData);
-
-  // ⚠️ Normalement ici tu devrais utiliser Article.create(articleData)
-  res.status(201).json({
-    message: "Article créé avec succès via le contrôleur !",
-    article: { id: Date.now(), ...articleData },
+  res.status(200).json({
+    message: "Le test depuis le contrôleur a fonctionné !",
+    success: true,
   });
 };
 
-// --- LECTURE D’UN ARTICLE PAR ID ---
-const getArticleById = async (req, res) => {
+// --- Récupérer tous les articles ---
+const getAllArticles = async (req, res) => {
   try {
-    // req.params.id contient l’ID passé dans l’URL
-    const article = await Article.findById(req.params.id);
-
-    // Si aucun article trouvé
-    if (!article) {
-      return res.status(404).json({ message: "Article non trouvé." });
-    }
-
-    res.status(200).json(article);
+    const articles = await Article.find();
+    res.status(200).json(articles);
   } catch (err) {
-    // Gestion d’erreur
-    res.status(500).json({ message: "Erreur serveur.", error: err.message });
+    res.status(500).json({ 
+      message: "Erreur lors de la récupération des articles.", 
+      error: err.message 
+    });
   }
 };
 
-// --- MISE À JOUR D’UN ARTICLE ---
+// --- Créer un nouvel article ---
+const createArticle = async (req, res) => {
+  try {
+    const newArticle = await Article.create(req.body);
+    res.status(201).json(newArticle);
+  } catch (err) {
+    res.status(400).json({ 
+      message: "Échec de la création de l'article.", 
+      error: err.message 
+    });
+  }
+};
+
+// --- Récupérer un article par ID ---
+const getArticleById = async (req, res) => {
+  try {
+    const article = await Article.findById(req.params.id);
+    if (!article) {
+      return res.status(404).json({ message: "Article non trouvé." });
+    }
+    res.status(200).json(article);
+  } catch (err) {
+    res.status(400).json({ 
+      message: "ID d'article invalide.", 
+      error: err.message 
+    });
+  }
+};
+
+// --- Mettre à jour un article ---
 const updateArticle = async (req, res) => {
   try {
     const updatedArticle = await Article.findByIdAndUpdate(
       req.params.id,
       req.body,
-      { new: true, runValidators: true } // Retourne le document mis à jour + applique les validations
+      { new: true, runValidators: true }
     );
 
     if (!updatedArticle) {
@@ -56,32 +68,36 @@ const updateArticle = async (req, res) => {
 
     res.status(200).json(updatedArticle);
   } catch (err) {
-    res
-      .status(400)
-      .json({ message: "Erreur lors de la mise à jour.", error: err.message });
+    res.status(400).json({ 
+      message: "Erreur lors de la mise à jour.", 
+      error: err.message 
+    });
   }
 };
 
-// --- SUPPRESSION D’UN ARTICLE ---
+// --- Supprimer un article ---
 const deleteArticle = async (req, res) => {
   try {
     const deletedArticle = await Article.findByIdAndDelete(req.params.id);
-
     if (!deletedArticle) {
       return res.status(404).json({ message: "Article non trouvé." });
     }
-
-    res
-      .status(200)
-      .json({ message: "Article supprimé avec succès.", id: req.params.id });
+    res.status(200).json({ 
+      message: "Article supprimé avec succès.", 
+      id: req.params.id 
+    });
   } catch (err) {
-    res.status(500).json({ message: "Erreur serveur.", error: err.message });
+    res.status(500).json({ 
+      message: "Erreur serveur.", 
+      error: err.message 
+    });
   }
 };
 
-// --- EXPORT DES FONCTIONS ---
+// --- Export des fonctions ---
 module.exports = {
   testApi,
+  getAllArticles,
   createArticle,
   getArticleById,
   updateArticle,

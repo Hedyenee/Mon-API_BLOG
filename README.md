@@ -1,327 +1,191 @@
-📝 Mon API Blog - Compte Rendu du Projet
+# 📝 Mon API Blog - Compte Rendu Complet du Projet (MERN Stack)
 
-📁 Structure du Projet
-text
+## 👤 Développeur
+
+- **Nom :** Hedyene Mili
+- **Établissement :** École Polytechnique de Sousse
+- **Période :** Septembre - Octobre 2025
+
+## 🚀 Objectifs Généraux
+
+Ce projet a pour but de développer une API REST complète pour un blog, en utilisant le stack MERN : **M**ongoDB, **E**xpress.js, **R**eact (Front-end non inclus dans le Back-end), **N**ode.js. Le travail se concentre sur le développement du Back-end (API-First).
+
+---
+
+## 📁 Structure Finale du Projet
+
+L'architecture est structurée selon le principe de la **Séparation des Préoccupations (SoC)** :
+
+```text
 mon-api-blog/
-├── server.js # Point d'entrée principal
-├── package.json # Configuration du projet
-├── package-lock.json # Verrouillage des versions
-└── node_modules/ # Dépendances installées
-
-🛠️ Installation et Démarrage
-
-1. Initialisation du Projet
-
-# J'ai créé le dossier du projet
-
-mkdir mon-api-blog
-cd mon-api-blog
-
-# Initialisation du projet Node.js
-
-npm init -y
-
-2. Installation des Dépendances
-
-# Installation d'Express (framework web)
-
-npm install express
-
-# Installation de Nodemon (pour le développement)
-
-npm install --save-dev nodemon
-
-3. Configuration des Scripts
-   Dans le fichier package.json, j'ai ajouté :
-
-json
-"scripts": {
-"start": "node server.js",
-"dev": "nodemon server.js"
-}
-
-💻 Création du Serveur Express
-Fichier : server.js
-
-🧪Test des Routes avec Postman
-
-1. Test des Routes GET
-
-GET /
-
-Description : Retourne une page HTML d'accueil.
-
-Réponse attendue :
-
-<h1>Page d'accueil de notre API de Blog!</h1>
-
-GET /api/test
-
-Description : Retourne un JSON de confirmation que l'API fonctionne.
-
-Réponse attendue :
-
-{
-"message": "Le test a fonctionné !",
-"success": true
-}
-
-GET /about
-
-Description : Affiche des informations sur l'API Blog.
-
-Réponse attendue :
-
-<h1>À propos de notre API Blog</h1>
-<p>Cette API permet de gérer les articles d'un blog</p>
-<p>Version 1.0 - Développée avec Express.js</p>
-
-GET /api/users
-
-Description : Retourne la liste des utilisateurs en JSON.
-
-Réponse attendue :
-
-[
-{ "id": 1, "name": "Alice Dupont", "email": "alice@example.com", "role": "Auteur" },
-{ "id": 2, "name": "Bob Martin", "email": "bob@example.com", "role": "Éditeur" },
-{ "id": 3, "name": "Charlie Brown", "email": "charlie@example.com", "role": "Lecteur" }
-]
-
-2. Test de la Route POST /api/articles
-
-Corps de la requête (JSON) :
-
-{
-"title": "Mon premier article",
-"content": "Ceci est le contenu de mon article.",
-"author": "John Doe"
-}
-
-Réponse attendue (JSON) :
-
-{
-"message": "Article créé avec succès !",
-"article": {
-"id": 1743703200000,
-"title": "Mon premier article",
-"content": "Ceci est le contenu de mon article.",
-"author": "John Doe"
-}
-}
-
-3. Test de la Route POST /contact
-
-Corps de la requête (JSON) :
-
-{
-"email": "contact@example.com",
-"message": "Bonjour, j'aimerais plus d'infos sur votre API."
-}
-
-Réponse attendue (JSON) :
-
-{
-"success": true,
-"message": "Message reçu de contact@example.com !",
-"receivedMessage": "Bonjour, j'aimerais plus d'infos sur votre API."
-}
-
-Cas d'erreur (si email ou message manquant) :
-
-{
-"error": "L'email et le message sont obligatoires"
-}
-
-🔧 Travail Pratique
-
-1. Route GET /about
-javascript :
-app.get('/about', (req, res) => {
-res.send(` <h1>À propos de notre API Blog</h1>
-   <p>Cette API permet de gérer les articles d'un blog</p>
-   <p>Version 1.0 - Développée avec Express.js</p>
-`);
-  });
-
-📡 Endpoints Disponibles
-| Méthode | Endpoint | Description |
-| ------- | ------------- | ---------------------- |
-| GET | / | Page d'accueil |
-| GET | /about | Page à propos |
-| GET | /api/test | Test de l'API |
-| GET | /api/users | Liste des utilisateurs |
-| POST | /api/articles | Création d'article |
-| POST | /contact | Envoi de message |
-
-🎯 Concepts Compris et Maîtrisés
-
-1. Architecture API-First
-   J'ai compris que l'API est le fondement de l'application
-
-Elle doit être conçue avant le front-end
-
-Permet une séparation claire entre back-end et front-end
-
-2. Middleware Express
-   express.json() permet de parser les requêtes JSON
-
-Doit être placé avant les routes qui en ont besoin
-
-Rend les données accessibles via req.body
-
-3. Gestion des Routes
-   Différence entre res.send() et res.json()
-
-Codes HTTP appropriés (200, 201, 400)
-
-Structure cohérente des réponses JSON
-
-4. Workflow de Développement
-   Utilisation de nodemon pour le redémarrage automatique
-
-Tests systématiques avec Postman
-
-Gestion des dépendances avec npm
-
-🚀 Lancement du Projet
-
-# Mode développement (avec redémarrage automatique)
-
-npm run dev
-
-# Mode production
-
-npm start
-
-📅 Date de réalisation : 29 septembre 2025
-
-🧠 MERN - Semaine 4 : Finalisation des Opérations CRUD
-🎯 Objectifs du TP
-Ce TP avait pour but de rendre notre API Node.js + Express + MongoDB (MERN) totalement fonctionnelle en complétant le cycle CRUD :
-• Lire un article spécifique (Read One)
-• Mettre à jour un article (Update)
-• Supprimer un article (Delete)
-• Tester toutes les routes avec Postman
-• Comprendre et gérer les paramètres de route (req.params.id)
-• Utiliser correctement les codes de statut HTTP (200, 404, 500, etc.)
-
----
-
-⚙️ Partie 1 – Concepts Techniques
-🔹 Les Paramètres de Route
-• Permettent de cibler une ressource spécifique via une URL comme /api/articles/:id
-• Accessible dans le contrôleur avec req.params.id
-Exemple :
-router.get('/:id', getArticleById)
-🔹 Méthodes HTTP et Status Codes
-Méthode Usage Statut
-GET Lire une ressource 200 OK
-PUT Mettre à jour (remplacer) une ressource 200 OK
-DELETE Supprimer une ressource 200 OK ou 204 No Content
-404 Ressource non trouvée —
-🔹 Méthodes Mongoose utilisées
-• findById(id) → Lire un seul document
-• findByIdAndUpdate(id, data, options) → Modifier un document
-• findByIdAndDelete(id) → Supprimer un document
-Options importantes :
-{ new: true, runValidators: true }
-• new: true → retourne le document après la mise à jour
-• runValidators: true → applique les règles de validation du schéma
-
----
-
-🧩 Partie 2 – Atelier Pratique : Implémentation du CRUD
-Étape 1 – Lire un article spécifique (Read One)
-Fichier : controllers/articleController.js
-const getArticleById = async (req, res) => {
-try {
-const article = await Article.findById(req.params.id)
-if (!article)
-return res.status(404).json({ message: "Article non trouvé." })
-res.status(200).json(article)
-} catch (err) {
-res.status(500).json({ message: "Erreur serveur.", error: err.message })
-}
-}
-Étape 2 – Mettre à jour un article (Update)
-Fichier : controllers/articleController.js
-const updateArticle = async (req, res) => {
-try {
-const updated = await Article.findByIdAndUpdate(
-req.params.id,
-req.body,
-{ new: true, runValidators: true }
-)
-if (!updated)
-return res.status(404).json({ message: "Article non trouvé." })
-res.status(200).json(updated)
-} catch (err) {
-res.status(400).json({ message: "Erreur lors de la mise à jour.", error: err.message })
-}
-}
-Étape 3 – Supprimer un article (Delete)
-const deleteArticle = async (req, res) => {
-try {
-const deleted = await Article.findByIdAndDelete(req.params.id)
-if (!deleted)
-return res.status(404).json({ message: "Article non trouvé." })
-res.status(200).json({ message: "Article supprimé avec succès.", id: req.params.id })
-} catch (err) {
-res.status(500).json({ message: "Erreur serveur.", error: err.message })
-}
-}
-Étape 4 – Cycle de Test avec Postman
-
-1. POST /api/articles → Créer un article et copier son \_id
-2. GET /api/articles → Lire tous les articles
-3. GET /api/articles/:id → Lire un article spécifique
-4. GET /api/articles/fake_id → Tester le 404
-5. PUT /api/articles/:id → Modifier l’article (titre, contenu, etc.)
-6. DELETE /api/articles/:id → Supprimer l’article
-7. GET /api/articles/:id → Vérifier que le 404 s’affiche après suppression
-
----
-
-📸 Travail Pratique Complémentaire
-Implémenter le même CRUD pour la ressource Users :
-• GET /api/users/:id
-• PUT /api/users/:id
-• DELETE /api/users/:id
-➡️ Utiliser :
-User.findById()
-User.findByIdAndUpdate()
-User.findByIdAndDelete()
-➡️ Gérer les erreurs 404 et tester avec Postman.
-➡️ Inclure dans le rapport : captures d’écran des requêtes réussies + erreurs (404).
-
----
-
-📚 Points à retenir
-• req.params.id sert à récupérer un ID dans l’URL
-• findById retourne null si l’élément n’existe pas
-• new: true permet d’avoir le document mis à jour dans la réponse
-• runValidators: true applique les contraintes du modèle Mongoose
-• Toujours gérer les erreurs avec un message clair + bon code HTTP
-• Tester chaque route CRUD avec Postman avant de passer à la suite
-
----
-
-🧾 Structure finale du projet
-project/
-│
 ├── controllers/
-│ └── articleController.js
-│
+│   ├── articleController.js # Logique métier des articles (CRUD)
+│   └── userController.js    # Logique métier des utilisateurs (CRUD)
 ├── models/
-│ └── Article.js
-│
+│   ├── Article.js           # Schéma et Modèle Mongoose Article
+│   └── User.js              # Schéma et Modèle Mongoose User
 ├── routes/
-│ └── articleRoutes.js
-│
-├── server.js
-└── README.md
-📅 Date de réalisation : 13 oct 2025
+│   ├── articleRoutes.js     # Définition des routes Articles (/api/articles)
+│   └── userRoutes.js        # Définition des routes Utilisateurs (/api/users)
+├── server.js                # Point d'entrée, Configuration, Middleware & Connexion DB
+├── package.json             # Configuration du projet & scripts
+└── node_modules/
+```
 
-👨‍💻 Développeur : Hedyene Mili
-🏫 École Polytechnique de Sousse
+---
+
+## 🛠️ TP 1 : Fondations et Routes Initiales
+
+**Date de réalisation : 29 septembre 2025**
+
+### 1\. Initialisation et Dépendances
+
+- **Dossier & Initialisation :** `mkdir mon-api-blog` puis `npm init -y`.
+- **Installation :** `npm install express mongoose dotenv`.
+- **Développement :** `npm install --save-dev nodemon`.
+
+### 2\. Configuration des Scripts
+
+| Script  | Commande            | Description                                  |
+| :------ | :------------------ | :------------------------------------------- |
+| `start` | `node server.js`    | Mode production                              |
+| `dev`   | `nodemon server.js` | Mode développement (redémarrage automatique) |
+
+### 3\. Endpoints Statiques & Initiaux
+
+- Mise en place du middleware `app.use(express.json())`.
+- **GET /** : Page d'accueil (`<h1>...</h1>`).
+- **GET /about** : Page À Propos.
+  ```javascript
+  app.get("/about", (req, res) => {
+    res.send(`<h1>À propos de notre API Blog</h1>...`);
+  });
+  ```
+- **GET /api/test** : Test de l'API (`{ "success": true }`).
+- **GET /api/users** : Liste d'utilisateurs factices (JSON statique).
+- **POST /api/articles** : Création d'article (simulée avec `req.body` et un ID factice).
+- **POST /contact** : Réception d'un message avec validation des champs (`email` et `message`).
+
+### 🎯 Concepts Compris (TP1)
+
+- **Architecture API-First.**
+- **express.json()** pour parser le corps des requêtes JSON.
+- Utilisation des codes HTTP : **200**, **201**, **400**.
+
+---
+
+## 🧩 TP 2 : Structuration de l'API (Routes et Contrôleurs)
+
+**Date de réalisation : 06 octobre 2025**
+
+### 1\. Refactorisation Modulaire
+
+L'objectif était de décomposer le fichier monolithique `server.js` pour une meilleure maintenabilité et lisibilité.
+
+- **Dossier `controllers/` :** Création des fichiers `articleController.js` et `userController.js` pour isoler la **logique métier** (fonctions).
+- **Dossier `routes/` :** Création des fichiers `articleRoutes.js` et `userRoutes.js` pour définir les chemins et utiliser `express.Router()`.
+
+### 2\. Connexion dans `server.js`
+
+Le serveur principal utilise les routeurs :
+
+```javascript
+const articleRoutes = require("./routes/articleRoutes");
+const userRoutes = require("./routes/userRoutes");
+
+// Connexion des routeurs à leurs chemins de base respectifs
+app.use("/api/articles", articleRoutes);
+app.use("/api/users", userRoutes);
+```
+
+### 🎯 Concepts Maîtrisés (TP2)
+
+- **Séparation des Préoccupations (SoC) :** Mieux que l'approche monolithique.
+- **express.Router() :** L'outil essentiel pour créer des modules de routage.
+
+---
+
+## 💾 TP 3 : Intégration de MongoDB et Mongoose
+
+**Date de réalisation : 13 octobre 2025**
+
+### 1\. Connexion à la Base de Données
+
+- Configuration de la chaîne de connexion MongoDB Atlas dans un fichier `.env`.
+- Mise en place de la connexion dans `server.js` via Mongoose.
+
+### 2\. Modélisation (Modèles Mongoose)
+
+- **`models/Article.js` :** Schéma définissant les champs (`title`, `content`, `author`) et leurs contraintes.
+- **`models/User.js` :** Schéma définissant les champs (`username`, `email`, `password`) avec contraintes :
+  - `username`: String, `required: true`.
+  - `email`: String, `required: true`, `unique: true`.
+  - `password`: String, `required: true`.
+
+### 3\. Mise à Jour des Contrôleurs (Read All & Create)
+
+Les contrôleurs ont été mis à jour pour utiliser des opérations asynchrones avec la base de données :
+
+- **getAllArticles/Users :** Utilisation de `Article.find()` / `User.find()`.
+- **createArticle/User :** Utilisation de `Article.create(req.body)` / `User.create(req.body)`.
+- **Gestion des erreurs :** Utilisation systématique de `async/await` et du bloc `try...catch` pour renvoyer un statut **500** en cas d'erreur serveur/DB.
+
+### 🎯 Concepts Compris (TP3)
+
+- **Programmation Asynchrone :** Nécessité de `async/await` pour gérer I/O avec la DB.
+- **Mongoose :** Rôle du Schéma (validation et structure) et du Modèle (interface de la collection).
+
+---
+
+## 🧠 TP 4 : Finalisation du Cycle CRUD
+
+**Date de réalisation : 20 octobre 2025**
+
+### 1\. Ciblage des Ressources
+
+- **Paramètres de Route :** Utilisation des paramètres dans l'URL (`/api/articles/:id`) pour cibler une ressource spécifique, accessible via **`req.params.id`**.
+
+### 2\. Implémentation du CRUD Article
+
+Les contrôleurs ont été complétés pour les opérations de mise à jour, lecture et suppression.
+
+| Méthode    | Endpoint            | Opération | Méthode Mongoose                  | Statut HTTP       |
+| :--------- | :------------------ | :-------- | :-------------------------------- | :---------------- |
+| **GET**    | `/api/articles/:id` | Read One  | `Article.findById(req.params.id)` | **200** / **404** |
+| **PUT**    | `/api/articles/:id` | Update    | `Article.findByIdAndUpdate()`     | **200** / **404** |
+| **DELETE** | `/api/articles/:id` | Delete    | `Article.findByIdAndDelete()`     | **200** / **404** |
+
+#### Options Cruciales (PUT)
+
+- **`{ new: true }` :** Assure que le document retourné est la version **après** la mise à jour.
+- **`{ runValidators: true }` :** Applique les règles de validation du schéma Mongoose avant la mise à jour.
+
+### 3\. Travail Pratique Complémentaire : CRUD Utilisateurs
+
+Le même cycle CRUD a été implémenté pour la ressource **Users** en utilisant :
+
+- `User.findById()`
+- `User.findByIdAndUpdate()`
+- `User.findByIdAndDelete()`
+
+Toutes les routes (GET, PUT, DELETE) gèrent correctement l'erreur **404 Not Found** si l'ID n'existe pas, et le **500 Internal Server Error** en cas d'erreur de base de données.
+
+### 📡 Endpoints Disponibles (API)
+
+| Méthode      | Endpoint                | Description                          |
+| :----------- | :---------------------- | :----------------------------------- |
+| `GET`        | `/api/articles`         | Récupère tous les articles           |
+| `POST`       | `/api/articles`         | Crée un nouvel article               |
+| **`GET`**    | **`/api/articles/:id`** | Récupère un article par son ID       |
+| **`PUT`**    | **`/api/articles/:id`** | Met à jour un article par son ID     |
+| **`DELETE`** | **`/api/articles/:id`** | Supprime un article par son ID       |
+| `GET`        | `/api/users`            | Récupère tous les utilisateurs       |
+| **`GET`**    | **`/api/users/:id`**    | Récupère un utilisateur par son ID   |
+| **`PUT`**    | **`/api/users/:id`**    | Met à jour un utilisateur par son ID |
+| **`DELETE`** | **`/api/users/:id`**    | Supprime un utilisateur par son ID   |
+
+### 🎯 Points Clés à Retenir (Finalisation CRUD)
+
+- `req.params.id` est l'outil pour récupérer l'identifiant dans l'URL.
+- Les méthodes `findById...` retournent **`null`** si l'élément n'existe pas, ce qui déclenche l'erreur **404**.
+- Le testing avec Postman est indispensable à chaque étape du développement.
